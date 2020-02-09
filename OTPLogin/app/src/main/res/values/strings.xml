@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OTPAuthentication</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="generate_otp">Generate OTP</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="verify_sign_in">Verify and Sign In</string>
+    <string name="sign_out">sign out</string>
+    <string name="code">Code</string>
+    <string name="send_confirmation_code">Send Confirmation Code</string>
+    <string name="we_sent_you_a_6_digit_code">We sent you a 6-digit code.</string>
+    <string name="_continue">Continue</string>
+    <string name="btn_signout">Sign Out</string>
+</resources>
