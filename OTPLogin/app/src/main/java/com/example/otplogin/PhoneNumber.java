@@ -1,8 +1,14 @@
 package com.example.otplogin;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.telecom.TelecomManager;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,11 +21,12 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import androidx.annotation.RequiresApi;
 
 
 public class PhoneNumber extends Activity {
 
-    private static final String TAG = "1" ;
+    private static final String TAG = "1";
     EditText phoneNumber;
     Button buttonCode;
     FirebaseAuth mAuth;
@@ -27,6 +34,7 @@ public class PhoneNumber extends Activity {
 
     private ProgressBar progressBar;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +43,10 @@ public class PhoneNumber extends Activity {
 
         //Enabling button if Phone Number is entered
         phoneNumber = findViewById(R.id.etPhoneNumber);
+
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        phoneNumber.setText(telephonyManager.getLine1Number());
+
         buttonCode = findViewById(R.id.btnSendConfirmationCode);
 //        phoneNumber.addTextChangedListener(phoneNumberWatcher);
 
