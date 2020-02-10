@@ -23,9 +23,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:text="A Power To You"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/slogan"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:fontFamily="sans-serif"
@@ -103,7 +103,7 @@
             android:paddingEnd="4dp"
             android:paddingStart="4dp"
             android:gravity="center"
-            android:hint="Enter your Phone Number"
+            android:hint="@string/hidden_Phone"
             />
 
 
@@ -129,6 +129,18 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/changeLanguage"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_corner_red_rectangle"
+        android:padding="8dp"
+        android:text="@string/change_lang"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
 
 </LinearLayout>
 </ScrollView>

@@ -1,10 +1,16 @@
 package com.example.otplogin;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.media.VolumeShaper;
 import android.os.Build;
 import android.os.Bundle;
 import android.telecom.TelecomManager;
@@ -20,6 +26,8 @@ import android.widget.ProgressBar;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Locale;
 
 import androidx.annotation.RequiresApi;
 
@@ -38,14 +46,12 @@ public class PhoneNumber extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocale();
         // Get the view from new_activity.xml
         setContentView(R.layout.phone_number_activity);
-
         //Enabling button if Phone Number is entered
         phoneNumber = findViewById(R.id.etPhoneNumber);
 
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        phoneNumber.setText(telephonyManager.getLine1Number());
 
         buttonCode = findViewById(R.id.btnSendConfirmationCode);
 //        phoneNumber.addTextChangedListener(phoneNumberWatcher);
@@ -80,72 +86,71 @@ public class PhoneNumber extends Activity {
             Log.d(TAG, "onAuthStateChanged:signed_out");
         }
 
+        findViewById(R.id.changeLanguage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showChangeLanguageDialog();
+
+            }
+        });
+
 
 
     }
 
+        private void showChangeLanguageDialog(){
+        final String[] listItems = { "हिंदी", "मराठी", "বাংলা", "English"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(PhoneNumber.this);
+            builder.setTitle("Choose Language...");
+            builder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (i == 0){
+                        setLocale("hi");
+                        recreate();
+                    }
+
+                    else if (i==1){
+                        setLocale("mr");
+                        recreate();
+                    }
+
+                    else if(i==2){
+                        setLocale("bn");
+                        recreate();
+                    }
+
+                    else if (i==3){
+                        setLocale("en");
+                        recreate();
+                    }
+                    dialogInterface.dismiss();
+
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
 
 
+        }
 
+        private  void setLocale(String lang){
+            Locale locale = new Locale(lang);
+            Locale.setDefault(locale);
+            Configuration configuration = new Configuration();
+            configuration.locale = locale;
+            getBaseContext().getResources().updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
 
+            SharedPreferences.Editor editor = getSharedPreferences("Settings",MODE_PRIVATE).edit();
+            editor.putString("My_Lang",lang);
+            editor.apply();
+        }
 
-//    private TextWatcher phoneNumberWatcher = new TextWatcher() {
-//        @Override
-//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//        }
-//
-//        @Override
-//        public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            String phoneDetails = phoneNumber.getText().toString();
-//            buttonCode.setEnabled(!phoneDetails.isEmpty() && phoneDetails.length() == 10);
-//        }
-//
-//        @Override
-//        public void afterTextChanged(Editable s) {
-//
-//        }
-//    };
-
-
-
-
-//    private void sendVerificationCode(){
-//        String phone = phoneNumber.getText().toString().trim();
-//
-//        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-//                "+91" + phone,        // Phone number to verify
-//                60,                 // Timeout duration
-//                TimeUnit.SECONDS,   // Unit of timeout
-//                this,               // Activity (for callback binding)
-//                mCallbacks);        // OnVerificationStateChangedCallbacks
-//    }
-//
-//    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//        @Override
-//        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-//
-//        }
-//
-//        @Override
-//        public void onVerificationFailed(FirebaseException e) {
-//
-//        }
-//
-//        @Override
-//        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-//            super.onCodeSent(s, forceResendingToken);
-//
-//            codeSent = s;
-//        }
-//    };
-//
-//
-//
-//
-//
-
-
-
+        public void loadLocale(){
+        SharedPreferences preferences = getSharedPreferences("Settings",Activity.MODE_PRIVATE);
+        String language = preferences.getString("My_Lang", "");
+        setLocale(language);
+        }
 
 }
