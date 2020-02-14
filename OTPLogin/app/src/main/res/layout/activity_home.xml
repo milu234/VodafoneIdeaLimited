@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".HomeActivity">
@@ -23,6 +24,73 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
         android:textColor="@color/colorPrimary" />
 
+    <TextView
+        android:id="@+id/timeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="80"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/optView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="Vodafone"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/btnPayPage"
+        android:layout_width="217dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="25dp"
+        android:background="@drawable/rounded_corner_red_rectangle"
+        android:padding="6dp"
+        android:text="Pay for Recharge"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:indeterminate="false"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:progress="80"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:progressDrawable="@drawable/circle"
+
+        />
+
+        <TextView
+            android:id="@+id/textProgress"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="0"
+            android:textSize="20sp"/>
+    </RelativeLayout>
 
 
     <Button
@@ -32,7 +100,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="250dp"
         android:background="@drawable/rounded_corner_red_rectangle"
-
         android:padding="6dp"
         android:text="@string/btn_signout"
         android:textAllCaps="false"
@@ -40,11 +107,34 @@
         android:textSize="15sp" />
 
 
+    <Button
+        android:id="@+id/btnUSSD"
+        android:layout_width="217dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="2dp"
+        android:background="@drawable/rounded_corner_red_rectangle"
+        android:padding="6dp"
+        android:text="USSD"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
 
 
 
-
+    <Button
+        android:id="@+id/btnInvite"
+        android:layout_width="217dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="25dp"
+        android:background="@drawable/rounded_corner_red_rectangle"
+        android:padding="6dp"
+        android:text="@string/btn_Invite"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
 
 </LinearLayout>

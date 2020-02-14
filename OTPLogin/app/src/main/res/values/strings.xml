@@ -15,4 +15,5 @@
     <string name="slogan">A Power to You</string>
     <string name="hidden_Phone">Enter your Phone Number</string>
     <string name="change_lang">Change Language</string>
+    <string name="btn_Invite">Invite</string>
 </resources>

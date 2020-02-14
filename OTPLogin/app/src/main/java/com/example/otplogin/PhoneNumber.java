@@ -1,79 +1,77 @@
 package com.example.otplogin;
 
-import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.media.VolumeShaper;
 import android.os.Build;
 import android.os.Bundle;
-import android.telecom.TelecomManager;
-import android.telephony.TelephonyManager;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Locale;
+import java.util.Map;
 
 import androidx.annotation.RequiresApi;
 
+import static android.app.AppOpsManager.OPSTR_GET_USAGE_STATS;
+
 
 public class PhoneNumber extends Activity {
+    private static final int MODE_ALLOWED = 1;
+    public static long startTime = 0;
+    public static long duration = 0;
 
     private static final String TAG = "1";
     EditText phoneNumber;
     Button buttonCode;
-    FirebaseAuth mAuth;
-    String codeSent;
 
-    private ProgressBar progressBar;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        startTime = duration + System.currentTimeMillis();
         super.onCreate(savedInstanceState);
-        loadLocale();
-        // Get the view from new_activity.xml
+        loadLocale();  ///For calling the language change function
         setContentView(R.layout.phone_number_activity);
-        //Enabling button if Phone Number is entered
         phoneNumber = findViewById(R.id.etPhoneNumber);
-
-
         buttonCode = findViewById(R.id.btnSendConfirmationCode);
-//        phoneNumber.addTextChangedListener(phoneNumberWatcher);
 
-        // Switch to next activity
+//****************************************************************Function to check the Phone Nuber*******************************************
+
         buttonCode.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
                 String mobile = phoneNumber.getText().toString().trim();
-
                 if(mobile.isEmpty() || mobile.length() < 10){
                     phoneNumber.setError("Enter a valid mobile");
                     phoneNumber.requestFocus();
                     return;
                 }
-
                 Intent intent = new Intent(PhoneNumber.this, OTPVerify.class);
                 intent.putExtra("mobile", mobile);
                 startActivity(intent);
 
             }
         });
+        //***************************************************************************************************************************************
+
+ //***************************************************Fucntion to check user is signed in ****************************************************
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -85,6 +83,10 @@ public class PhoneNumber extends Activity {
             // User is signed out
             Log.d(TAG, "onAuthStateChanged:signed_out");
         }
+//*********************************************************************************************************************************************
+
+//******************************************************************Function button to change Language****************************************
+
 
         findViewById(R.id.changeLanguage).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,12 +95,17 @@ public class PhoneNumber extends Activity {
 
             }
         });
-
-
-
+        //***********************************************************************************************************************************************
     }
 
-        private void showChangeLanguageDialog(){
+    @Override
+    protected void onPause() {
+        super.onPause();
+        duration += System.currentTimeMillis() - startTime;
+        startTime = System.currentTimeMillis();
+    }
+//**************************************************************Function to display the Language Change - Start****************************************
+    private void showChangeLanguageDialog(){
         final String[] listItems = { "हिंदी", "मराठी", "বাংলা", "English"};
             AlertDialog.Builder builder = new AlertDialog.Builder(PhoneNumber.this);
             builder.setTitle("Choose Language...");
@@ -152,5 +159,24 @@ public class PhoneNumber extends Activity {
         String language = preferences.getString("My_Lang", "");
         setLocale(language);
         }
+
+//**********************************************************END*************************************************************************************
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static long getRunningTime(){
+        return duration;
+
+    }
+
+    public void showTime(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Long start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            Long end =  ZonedDateTime.now().toInstant().toEpochMilli();
+            UsageStatsManager usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
+            Map<String, UsageStats> stats = usageStatsManager.queryAndAggregateUsageStats(start, end);
+
+            //Long total = Duration.ofMillis(stats.v
+        }
+    }
 
 }
