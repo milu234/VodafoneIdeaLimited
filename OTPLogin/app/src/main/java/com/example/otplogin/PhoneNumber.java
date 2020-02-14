@@ -1,5 +1,6 @@
 package com.example.otplogin;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AppOpsManager;
@@ -9,14 +10,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,7 +32,10 @@ import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import static android.app.AppOpsManager.OPSTR_GET_USAGE_STATS;
 
@@ -40,7 +48,7 @@ public class PhoneNumber extends Activity {
     private static final String TAG = "1";
     EditText phoneNumber;
     Button buttonCode;
-
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -51,10 +59,17 @@ public class PhoneNumber extends Activity {
         loadLocale();  ///For calling the language change function
         setContentView(R.layout.phone_number_activity);
         phoneNumber = findViewById(R.id.etPhoneNumber);
-        buttonCode = findViewById(R.id.btnSendConfirmationCode);
+
+        if (!checkPermission(Manifest.permission.READ_PHONE_STATE)) {
+            requestPermission(Manifest.permission.READ_PHONE_STATE);
+        } else {
+            phoneNumber.setText(getPhone());
+        }
+
+
 
 //****************************************************************Function to check the Phone Nuber*******************************************
-
+    buttonCode = findViewById(R.id.btnSendConfirmationCode);
         buttonCode.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 String mobile = phoneNumber.getText().toString().trim();
@@ -76,7 +91,7 @@ public class PhoneNumber extends Activity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
-            Intent i = new Intent(PhoneNumber.this, HomeActivity.class);
+            Intent i = new Intent(PhoneNumber.this, MainActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         } else {
@@ -160,7 +175,53 @@ public class PhoneNumber extends Activity {
         setLocale(language);
         }
 
+
+
 //**********************************************************END*************************************************************************************
+
+    private String getPhone(){
+        TelephonyManager phoneMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(PhoneNumber.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return "";
+        }
+        return phoneMgr.getLine1Number();
+    }
+
+
+    private void requestPermission(String permission){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(PhoneNumber.this, permission)){
+            Toast.makeText(PhoneNumber.this, "Phone state permission allows us to get phone number. Please allow it for additional functionality.", Toast.LENGTH_LONG).show();
+        }
+        ActivityCompat.requestPermissions(PhoneNumber.this, new String[]{permission},PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "Phone number: " + getPhone());
+                } else {
+                    Toast.makeText(PhoneNumber.this,"Permission Denied. We can't get phone number.", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
+    }
+
+
+    private boolean checkPermission(String permission){
+        if (Build.VERSION.SDK_INT >= 23) {
+            int result = ContextCompat.checkSelfPermission(PhoneNumber.this, permission);
+            if (result == PackageManager.PERMISSION_GRANTED){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static long getRunningTime(){

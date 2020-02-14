@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/splash_bg"
+    android:layout_height="match_parent"
+    tools:context=".SplashActivity">
+
+    <TextView
+        android:id="@+id/txt_v"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="serif-monospace"
+        android:text="@string/vodafone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="26sp" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="274dp"
+        android:layout_height="225dp"
+        android:layout_above="@id/txt_v"
+        android:layout_centerInParent="true"
+        android:elevation="6dp"
+        android:src="@drawable/vodafone_logo"
+        android:contentDescription="TODO" />
+
+
+
+
+</RelativeLayout>

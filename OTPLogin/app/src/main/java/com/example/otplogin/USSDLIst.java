@@ -16,7 +16,7 @@ public class USSDLIst extends AppCompatActivity {
 
     ListView listView;
     String[] CodeNames = {"Check Balance","Check Your Number","V2V Night Minutes","Free SMS Balance"};
-    int[] Images = {R.drawable.ic_account_balance_wallet_black_24dp,R.drawable.ic_contact_phone_black_24dp,R.drawable.ic_access_time_black_24dp,R.drawable.ic_sms_black_24dp,R.drawable.ic_launcher_background};
+    int[] Images = {R.drawable.ic_account_balance_wallet_black_24dp,R.drawable.ic_contact_phone_black_24dp,R.drawable.ic_access_time_black_24dp,R.drawable.ic_sms_black_24dp};
     String[] CodeValues = {"*141#","*121#","*147#","*142#"};
 
 

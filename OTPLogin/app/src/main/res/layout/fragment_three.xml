@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TresFragment">
+
+
+
+    <TextView
+        android:id="@+id/vodacoin_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vodacoins"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorAccent"
+        ></TextView>
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/vodacoin_text">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/shape_linear_layout" >
+
+
+
+
+                <Button
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/play_games"
+
+                    ></Button>
+
+                <Button
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/survey"
+
+                    ></Button>
+
+                <Button
+                    android:id="@+id/task"
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/task"
+
+                    ></Button>
+
+                <Button
+                    android:id="@+id/arButton"
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:text="@string/camera"
+
+                    ></Button>
+
+
+
+
+            </LinearLayout>
+
+
+
+        </HorizontalScrollView>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>
