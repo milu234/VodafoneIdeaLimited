@@ -3,8 +3,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
-    tools:context=".CautroFragment">
+    tools:context=".CautroFragment"
+    android:background="@color/white">
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/vodacoin_text"
+        android:scrollbars="none">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                 >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/vodafone_play"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:textSize="17sp"
+                    android:textAlignment="center"
+                    >
+
+                </TextView>
+
+
+                <ImageButton
+                    android:id="@+id/voda_play_button"
+                    android:layout_margin="25sp"
+                    android:layout_marginTop="50sp"
+                    android:layout_width="300sp"
+                    android:layout_height="300sp"
+                    android:src="@drawable/voda_play"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitCenter"
+                    android:background="@color/white"
+
+
+                    android:contentDescription="@string/todo" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#c0c0c0"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/vodafone_callertune"
+                    android:textColor="@color/black"
+
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:textSize="17sp"
+                    android:textAlignment="center">
+
+                </TextView>
+
+                <ImageButton
+                    android:id="@+id/voda_callertune_button"
+                    android:layout_margin="25sp"
+                    android:layout_width="300sp"
+                    android:layout_height="300sp"
+                    android:layout_centerHorizontal="true"
+
+                    android:layout_below="@+id/voda_play_button"
+                    android:src="@drawable/voda_callertune"
+                    android:scaleType="fitCenter"
+                    android:background="@color/white"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#c0c0c0"
+                    android:layout_margin="10dp"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/vodafone_redx"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:textSize="17sp">
+
+                </TextView>
+
+
+                <ImageButton
+                    android:id="@+id/voda_redx_button"
+
+                    android:layout_margin="25sp"
+                    android:src="@drawable/voda_redx"
+                    android:layout_width="300sp"
+                    android:layout_height="300sp"
+
+                    android:layout_centerHorizontal="true"
+
+                    android:layout_below="@+id/voda_callertune_button"
+                    android:scaleType="fitCenter"
+                    android:background="@color/white"/>
+
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
+        </HorizontalScrollView>
+    </ScrollView>
+
+
+
+
 
 
 

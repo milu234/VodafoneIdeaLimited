@@ -15,6 +15,49 @@
  */
 package com.example.otplogin;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.view.PixelCopy;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.ar.core.AugmentedFace;
+import com.google.ar.core.TrackingState;
+import com.google.ar.sceneform.ArSceneView;
+import com.google.ar.sceneform.FrameTime;
+import com.google.ar.sceneform.Scene;
+import com.google.ar.sceneform.rendering.MaterialFactory;
+import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.rendering.Renderable;
+import com.google.ar.sceneform.rendering.Texture;
+import com.google.ar.sceneform.ux.AugmentedFaceNode;
+import java.util.concurrent.CompletableFuture;
+
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -25,6 +68,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.ar.core.ArCoreApk;
 import com.google.ar.core.AugmentedFace;
 import com.google.ar.core.TrackingState;
@@ -36,6 +80,7 @@ import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.rendering.Texture;
 import com.google.ar.sceneform.ux.AugmentedFaceNode;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,119 +91,194 @@ import java.util.Map;
  * tasks easier.
  */
 public class AugmentedFacesActivity extends AppCompatActivity {
-  private static final String TAG = AugmentedFacesActivity.class.getSimpleName();
+    private static final String TAG = AugmentedFacesActivity.class.getSimpleName();
 
-  private static final double MIN_OPENGL_VERSION = 3.0;
+    private static final double MIN_OPENGL_VERSION = 3.0;
 
-  private FaceArFragment arFragment;
+    private FaceArFragment arFragment;
 
-  private ModelRenderable faceRegionsRenderable;
-  private Texture faceMeshTexture;
+    private ModelRenderable faceRegionsRenderable;
+    private Texture faceMeshTexture;
 
-  private final HashMap<AugmentedFace, AugmentedFaceNode> faceNodeMap = new HashMap<>();
+    private final HashMap<AugmentedFace, AugmentedFaceNode> faceNodeMap = new HashMap<>();
 
-  @Override
-  @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
-  // CompletableFuture requires api level 24
-  // FutureReturnValueIgnored is not valid
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
+    // CompletableFuture requires api level 24
+    // FutureReturnValueIgnored is not valid
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    if (!checkIsSupportedDeviceOrFinish(this)) {
-      return;
-    }
-
-    setContentView(R.layout.activity_face_mesh);
-    arFragment = (FaceArFragment) getSupportFragmentManager().findFragmentById(R.id.face_fragment);
-
-    // Load the face regions renderable.
-    // This is a skinned model that renders 3D objects mapped to the regions of the augmented face.
-    ModelRenderable.builder()
-        .setSource(this, R.raw.fox_face)
-        .build()
-        .thenAccept(
-            modelRenderable -> {
-              faceRegionsRenderable = modelRenderable;
-              modelRenderable.setShadowCaster(false);
-              modelRenderable.setShadowReceiver(false);
-            });
-
-    // Load the face mesh texture.
-    Texture.builder()
-        .setSource(this, R.drawable.fox_face_mesh_texture)
-        .build()
-        .thenAccept(texture -> faceMeshTexture = texture);
-
-    ArSceneView sceneView = arFragment.getArSceneView();
-
-    // This is important to make sure that the camera stream renders first so that
-    // the face mesh occlusion works correctly.
-    sceneView.setCameraStreamRenderPriority(Renderable.RENDER_PRIORITY_FIRST);
-
-    Scene scene = sceneView.getScene();
-
-    scene.addOnUpdateListener(
-        (FrameTime frameTime) -> {
-          if (faceRegionsRenderable == null || faceMeshTexture == null) {
+        if (!checkIsSupportedDeviceOrFinish(this)) {
             return;
-          }
+        }
 
-          Collection<AugmentedFace> faceList =
-              sceneView.getSession().getAllTrackables(AugmentedFace.class);
+        setContentView(R.layout.activity_face_mesh);
+        arFragment = (FaceArFragment) getSupportFragmentManager().findFragmentById(R.id.face_fragment);
 
-          // Make new AugmentedFaceNodes for any new faces.
-          for (AugmentedFace face : faceList) {
-            if (!faceNodeMap.containsKey(face)) {
-              AugmentedFaceNode faceNode = new AugmentedFaceNode(face);
-              faceNode.setParent(scene);
-              faceNode.setFaceRegionsRenderable(faceRegionsRenderable);
-              faceNode.setFaceMeshTexture(faceMeshTexture);
-              faceNodeMap.put(face, faceNode);
-            }
-          }
+        // Load the face regions renderable.
+        // This is a skinned model that renders 3D objects mapped to the regions of the augmented face.
+        ModelRenderable.builder()
+                .setSource(this, R.raw.fox_face)
+                .build()
+                .thenAccept(
+                        modelRenderable -> {
+                            faceRegionsRenderable = modelRenderable;
+                            modelRenderable.setShadowCaster(false);
+                            modelRenderable.setShadowReceiver(false);
+                        });
 
-          // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
-          Iterator<Map.Entry<AugmentedFace, AugmentedFaceNode>> iter =
-              faceNodeMap.entrySet().iterator();
-          while (iter.hasNext()) {
-            Map.Entry<AugmentedFace, AugmentedFaceNode> entry = iter.next();
-            AugmentedFace face = entry.getKey();
-            if (face.getTrackingState() == TrackingState.STOPPED) {
-              AugmentedFaceNode faceNode = entry.getValue();
-              faceNode.setParent(null);
-              iter.remove();
-            }
-          }
-        });
-  }
+        // Load the face mesh texture.
+        Texture.builder()
+                .setSource(this, R.drawable.fox_face_mesh_texture)
+                .build()
+                .thenAccept(texture -> faceMeshTexture = texture);
 
-  /**
-   * Returns false and displays an error message if Sceneform can not run, true if Sceneform can run
-   * on this device.
-   *
-   * <p>Sceneform requires Android N on the device as well as OpenGL 3.0 capabilities.
-   *
-   * <p>Finishes the activity if Sceneform can not run
-   */
-  public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
-    if (ArCoreApk.getInstance().checkAvailability(activity)
-        == ArCoreApk.Availability.UNSUPPORTED_DEVICE_NOT_CAPABLE) {
-      Log.e(TAG, "Augmented Faces requires ARCore.");
-      Toast.makeText(activity, "Augmented Faces requires ARCore", Toast.LENGTH_LONG).show();
-      activity.finish();
-      return false;
+        ArSceneView sceneView = arFragment.getArSceneView();
+
+        // This is important to make sure that the camera stream renders first so that
+        // the face mesh occlusion works correctly.
+        sceneView.setCameraStreamRenderPriority(Renderable.RENDER_PRIORITY_FIRST);
+
+        Scene scene = sceneView.getScene();
+
+        scene.addOnUpdateListener(
+                (FrameTime frameTime) -> {
+                    if (faceRegionsRenderable == null || faceMeshTexture == null) {
+                        return;
+                    }
+
+                    Collection<AugmentedFace> faceList =
+                            sceneView.getSession().getAllTrackables(AugmentedFace.class);
+
+                    // Make new AugmentedFaceNodes for any new faces.
+                    for (AugmentedFace face : faceList) {
+                        if (!faceNodeMap.containsKey(face)) {
+                            AugmentedFaceNode faceNode = new AugmentedFaceNode(face);
+                            faceNode.setParent(scene);
+                            faceNode.setFaceRegionsRenderable(faceRegionsRenderable);
+                            faceNode.setFaceMeshTexture(faceMeshTexture);
+                            faceNodeMap.put(face, faceNode);
+                        }
+                    }
+
+                    // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
+                    Iterator<Map.Entry<AugmentedFace, AugmentedFaceNode>> iter =
+                            faceNodeMap.entrySet().iterator();
+                    while (iter.hasNext()) {
+                        Map.Entry<AugmentedFace, AugmentedFaceNode> entry = iter.next();
+                        AugmentedFace face = entry.getKey();
+                        if (face.getTrackingState() == TrackingState.STOPPED) {
+                            AugmentedFaceNode faceNode = entry.getValue();
+                            faceNode.setParent(null);
+                            iter.remove();
+                        }
+                    }
+                });
+
+        FloatingActionButton fab = findViewById(R.id.camerabutton);
+        fab.setOnClickListener(view -> takePhoto());
     }
-    String openGlVersionString =
-        ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE))
-            .getDeviceConfigurationInfo()
-            .getGlEsVersion();
-    if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
-      Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
-      Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
-          .show();
-      activity.finish();
-      return false;
+
+    /**
+     * Returns false and displays an error message if Sceneform can not run, true if Sceneform can run
+     * on this device.
+     *
+     * <p>Sceneform requires Android N on the device as well as OpenGL 3.0 capabilities.
+     *
+     * <p>Finishes the activity if Sceneform can not run
+     */
+    public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
+        if (ArCoreApk.getInstance().checkAvailability(activity)
+                == ArCoreApk.Availability.UNSUPPORTED_DEVICE_NOT_CAPABLE) {
+            Log.e(TAG, "Augmented Faces requires ARCore.");
+            Toast.makeText(activity, "Augmented Faces requires ARCore", Toast.LENGTH_LONG).show();
+            activity.finish();
+            return false;
+        }
+        String openGlVersionString =
+                ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE))
+                        .getDeviceConfigurationInfo()
+                        .getGlEsVersion();
+        if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
+            Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
+            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
+                    .show();
+            activity.finish();
+            return false;
+        }
+        return true;
     }
-    return true;
-  }
+
+    private String generateFilename() {
+        String date =
+                new SimpleDateFormat("yyyyMMddHHmmss", java.util.Locale.getDefault()).format(new Date());
+        return Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES) + File.separator + "MyVodafone/" + date + "_screenshot.jpg";
+    }
+
+    private void saveBitmapToDisk(Bitmap bitmap, String filename) throws IOException {
+
+        File out = new File(filename);
+        if (!out.getParentFile().exists()) {
+            out.getParentFile().mkdirs();
+        }
+        try (FileOutputStream outputStream = new FileOutputStream(filename);
+             ByteArrayOutputStream outputData = new ByteArrayOutputStream()) {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputData);
+            outputData.writeTo(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException ex) {
+            throw new IOException("Failed to save bitmap to disk", ex);
+        }
+    }
+
+    private void takePhoto() {
+        final String filename = generateFilename();
+        ArSceneView view = arFragment.getArSceneView();
+
+        // Create a bitmap the size of the scene view.
+        final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        // Create a handler thread to offload the processing of the image.
+        final HandlerThread handlerThread = new HandlerThread("PixelCopier");
+        handlerThread.start();
+        // Make the request to copy.
+        PixelCopy.request(view, bitmap, (copyResult) -> {
+            if (copyResult == PixelCopy.SUCCESS) {
+                try {
+                    UpdateCoins.updateVodaCoins("40");
+                    saveBitmapToDisk(bitmap, filename);
+                } catch (IOException e) {
+                    Toast toast = Toast.makeText(AugmentedFacesActivity.this, e.toString(),
+                            Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+                        "Photo saved", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Open in Photos", v -> {
+                    File photoFile = new File(filename);
+
+                    Uri photoURI = FileProvider.getUriForFile(AugmentedFacesActivity.this,
+                            AugmentedFacesActivity.this.getPackageName() + ".ar.codelab.name.provider",
+                            photoFile);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, photoURI);
+                    intent.setDataAndType(photoURI, "image/*");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(intent);
+
+                });
+                snackbar.show();
+            } else {
+                Toast toast = Toast.makeText(AugmentedFacesActivity.this,
+                        "Failed to copyPixels: " + copyResult, Toast.LENGTH_LONG);
+                toast.show();
+            }
+            handlerThread.quitSafely();
+        }, new Handler(handlerThread.getLooper()));
+    }
+
 }

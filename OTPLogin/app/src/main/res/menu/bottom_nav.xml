@@ -8,18 +8,18 @@
 
     <item
         android:id="@+id/frag2"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="Fragment 2" />
+        android:icon="@drawable/ic_monetization_on_black_24dp"
+        android:title="Recharges" />
 
     <item
         android:id="@+id/frag3"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="Fragment 3" />
+        android:icon="@drawable/ic_mood_black_24dp"
+        android:title="Voda Coins" />
 
     <item
         android:id="@+id/frag4"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="Fragment 4" />
+        android:icon="@drawable/ic_local_offer_black_24dp"
+        android:title="Entertainment" />
 
     <item
         android:id="@+id/account"

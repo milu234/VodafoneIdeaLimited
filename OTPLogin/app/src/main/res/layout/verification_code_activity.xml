@@ -105,7 +105,7 @@
                 android:paddingRight="6dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="6dp"
-                android:text="Resend"
+                android:text="@string/resend"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />

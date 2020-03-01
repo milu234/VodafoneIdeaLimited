@@ -3,60 +3,106 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.otplogin">
 
-    <uses-permission android:name="android.permission.INTERNET" android:required="true" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" android:required="true" />
-    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" android:required="true"/>
-    <uses-permission android:name="android.permission.READ_SMS" android:required="true"/>
-    <uses-permission android:name="android.permission.CALL_PHONE" android:required="true"/>
-    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" android:required="true"/>
-    <uses-permission android:name="android.permission.READ_CALL_LOG" android:required="true"/>
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.READ_PHONE_NUMBERS"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.READ_SMS"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.CALL_PHONE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.MANAGE_OWN_CALLS"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.READ_CALL_LOG"
+        android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" android:required="true"/>
-
-    <!-- Both "AR Optional" and "AR Required" apps require CAMERA permission. -->
+        android:required="true"
+        tools:ignore="ProtectedPermissions" /> <!-- Both "AR Optional" and "AR Required" apps require CAMERA permission. -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature
+        android:name="android.hardware.camera.ar"
+        android:required="true" />
 
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".VideoWebView"></activity>
+        <activity android:name=".ChatBot" />
 
-    <uses-feature android:name="android.hardware.camera.ar"  android:required="true"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
-        <application
-            android:allowBackup="true"
-            android:usesCleartextTraffic="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning">
-            <uses-library android:name="org.apache.http.legacy" android:required="false" />
-            <activity android:name=".RazorPayGateway"></activity>
-            <activity android:name=".DialCode" />
-            <activity android:name=".USSDLIst" />
-            <activity android:name=".HomeActivity" />
-            <activity android:name=".MainActivity" />
-            <activity android:name=".AugmentedFacesActivity"/>
-            <activity android:name=".PhoneNumber">
+        <activity android:name=".RazorPayGateway" />
+        <activity android:name=".DialCode" />
+        <activity android:name=".USSDLIst" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".AugmentedFacesActivity" />
+        <activity android:name=".PhoneNumber" />
+        <activity android:name=".SurveyActivity" />
+        <activity android:name=".InfoWindowAdapter" />
+        <activity android:name=".InfoPage" />
+        <activity android:name=".Map2Activity" />
 
-            </activity>
-            <activity android:name=".SplashActivity">
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-                    <category android:name="android.intent.category.LAUNCHER" />
-                </intent-filter>
-            </activity>
-            <activity android:name=".OTPVerify" />
+        <activity android:name=".MapsActivity" />
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-            <meta-data
-                android:name="com.razorpay.ApiKey"
-                android:value="rzp_test_V0RhdwLOQO5tCB"/>
-            <meta-data android:name="com.google.ar.core" android:value="required" />
-        </application>
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".OTPVerify" />
 
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_V0RhdwLOQO5tCB" />
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="required" />
+    </application>
 
-
-    </manifest>
+</manifest>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OTPAuthentication</string>
+    <string name="app_name">MyVodafone</string>
     <string name="phone_number">Phone Number</string>
     <string name="generate_otp" translatable="false">Generate OTP</string>
     <string name="enter_otp">Enter OTP</string>
@@ -13,13 +13,18 @@
     <string name="btn_signout">Sign Out</string>
     <string name="welcome">Welcome to our Profile</string>
     <string name="slogan">A Power to You</string>
-    <string name="hidden_Phone">Enter your Phone Number</string>
+    <string name="hidden_Phone">Enter your phone number</string>
+    <string name="hidden_Phone1">Enter 1st phone number</string>
+    <string name="hidden_Phone2">Enter 2nd phone number</string>
+    <string name="hidden_Phone3">Enter 3rd phone number</string>
+
+    <string name="clickImage">Click an Image</string>
     <string name="change_lang">Change Language</string>
     <string name="btn_Invite">Invite</string>
     <string name="vodafone" translatable="false">Vodafone</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="deals">Deals</string>
-    <string name="vodacoins">vodacoins</string>
+    <string name="deals">Deals and offers</string>
+    <string name="vodacoins">VodaCoins</string>
     <string name="play_games">play games</string>
     <string name="survey">survey</string>
     <string name="task">task</string>
@@ -28,6 +33,55 @@
     <string name="recommended">recommended</string>
     <string name="unlimited">unlimited</string>
     <string name="allrounder">All Rounder</string>
-    <string name="data">Data</string>
+
     <string name="entertainment">Entertainment</string>
+
+    <string name="google_maps_key">AIzaSyBEXojLNEIYeKmyBdshlDooE-o-JfZCCsU</string>
+
+    <string name="grouprecharge">Group Recharge</string>
+    <string name="set_quick_charge">QuickRecharge</string>
+    <string name="scratchcard">Scratchcards</string>
+    <string name="spendVodaCoins">Spend coins</string>
+    <string name="ussdcode">Check Ussd code</string>
+    <string name="dial">DIAL</string>
+    <string name="vicinity">Vicinity</string>
+    <string name="address">Address</string>
+    <string name="store">get nearby vodafone stores</string>
+    <string name="payamt">Enter amount</string>
+    <string name="pay">Pay</string>
+    <string name="score">Score</string>
+    <string name="quesone">Which thing is alive</string>
+    <string name="bird">Bird</string>
+    <string name="door">Door</string>
+    <string name="rock">Rock</string>
+    <string name="view_routes">View routes</string>
+    <string name="plan">Plan</string>
+    <string name="talktime_balance">Talktime Balance</string>
+    <string name="data_left">Data left</string>
+    <string name="ongoing">Ongoing</string>
+
+    <string name="voda_coins">Voda Coins</string>
+    <string name="vodafone_redx">Vodafone REDX</string>
+    <string name="vodafone_play">Vodafone play</string>
+    <string name="todo">TODO</string>
+    <string name="vodafone_callertune">Vodafone callertune</string>
+
+    <string name="rs_49">Rs.49</string>
+    <string name="talktime">talktime</string>
+    <string name="rs_38">Rs.38</string>
+
+
+    <string name="validity">Validity</string>
+    <string name="_28_days">28 days</string>
+    <string name="price">Price</string>
+    <string name="rs_79">Rs.79</string>
+    <string name="talktime2">Talktime</string>
+    <string name="rs_64">Rs.64</string>
+    <string name="data">Data</string>
+    <string name="_100mb">100MB</string>
+
+    <string name="check_balance">Check Balance</string>
+    <string name="resend">Resend</string>
+
+
 </resources>

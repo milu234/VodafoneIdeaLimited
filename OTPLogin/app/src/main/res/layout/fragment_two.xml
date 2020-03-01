@@ -1,82 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DosFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DosFragment"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/recharge_text"
-        android:layout_width="wrap_content"
+<!--    <TextView-->
+<!--        android:id="@+id/recharge_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/recharge"-->
+<!--        android:textSize="15dp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:fontFamily="sans-serif-smallcaps"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        ></TextView>-->
+
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="15sp"
         android:layout_height="wrap_content"
-        android:text="@string/recharge"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:layout_margin="10dp"
-        android:textColor="@color/colorAccent"
-        ></TextView>
+        app:tabGravity="fill"
+        app:tabMode="scrollable"
+        android:id="@+id/tablayout_id"
+        app:tabTextColor="@color/tabtextColor"
+        app:tabIndicatorColor="@color/tabindicatorColor"
+        android:background="@color/colorPrimary"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewpager_id"
+        />
+<!--    <ScrollView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/recharge_text">-->
+
+<!--        <HorizontalScrollView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
 
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recharge_text">
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/shape_linear_layout" >
-
-
-
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:text="@string/recommended"
-
-
-                    ></Button>
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:text="@string/unlimited"
-
-
-                    ></Button>
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:text="@string/allrounder"
-
-
-                    ></Button>
-
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:text="@string/data"
-
-
-                    ></Button>
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                 >-->
 
 
 
 
-            </LinearLayout>
+<!--                <Button-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:text="@string/recommended"-->
+<!--                    android:background="@drawable/shape_linear_layout"-->
+
+
+<!--                    ></Button>-->
+
+<!--                <Button-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:text="@string/unlimited"-->
+<!--                    android:background="@drawable/shape_linear_layout"-->
+
+
+<!--                    ></Button>-->
+
+<!--                <Button-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:text="@string/allrounder"-->
+<!--                    android:background="@drawable/shape_linear_layout"-->
+
+
+<!--                    ></Button>-->
+
+<!--                <Button-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:text="@string/data"-->
+<!--                    android:background="@drawable/shape_linear_layout"-->
+
+
+<!--                    ></Button>-->
+
+<!--                <Button-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:text="@string/grouprecharge"-->
+<!--                    android:background="@drawable/shape_linear_layout"-->
+
+
+<!--                    ></Button>-->
 
 
 
-        </HorizontalScrollView>
-    </ScrollView>
+
+<!--            </LinearLayout>-->
 
 
-</RelativeLayout>
+
+<!--        </HorizontalScrollView>-->
+<!--    </ScrollView>-->
+
+
+</LinearLayout>

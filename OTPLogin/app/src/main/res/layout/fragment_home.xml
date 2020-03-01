@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UnoFragment">
 
 
@@ -12,10 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/deals"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textAlignment="center"
         android:layout_margin="10dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_centerHorizontal="true"
         ></TextView>
 
 
@@ -27,7 +30,8 @@
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
 
             <LinearLayout
@@ -35,23 +39,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/shape_linear_layout" >
+                 >
 
 
 
 
                 <Button
+                    android:id="@+id/sastaRecharge"
                     android:layout_width="300dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp"
-
                     android:layout_marginBottom="15dp"
-
-                    android:background="@drawable/sample"></Button>
+                    android:background="@drawable/sasta_rechrage"></Button>
 
                 <Button
+                    android:id="@+id/earnCoins"
                     android:layout_width="300dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="12dp"
@@ -59,43 +63,78 @@
 
                     android:layout_marginBottom="15dp"
 
-                    android:background="@drawable/sample"></Button>
+                    android:background="@drawable/banner_vodacoins"></Button>
 
                 <Button
+                    android:id="@+id/dealsOffers"
                     android:layout_width="300dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="20dp"
-
                     android:layout_marginBottom="15dp"
-
-                    android:background="@drawable/sample"></Button>
+                    android:background="@drawable/offers"></Button>
 
                 <Button
+                    android:id="@+id/scratchCards"
                     android:layout_width="300dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginRight="20dp"
-
                     android:layout_marginBottom="15dp"
+                    android:background="@drawable/scratch_card"></Button>
 
-                    android:background="@drawable/sample"></Button>
 
-                <Button
-                    android:layout_width="300dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginRight="20dp"
-
-                    android:layout_marginBottom="15dp"
-
-                    android:background="@drawable/sample"></Button>
             </LinearLayout>
         </HorizontalScrollView>
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="230sp"
+
+        >
+
+        <com.ebanx.swipebtn.SwipeButton
+            android:id="@+id/swipe_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:inner_text="one-swipe Recharge"
+            app:inner_text_color="@android:color/white"
+            app:inner_text_size="16sp"
+            app:inner_text_top_padding="18dp"
+            app:inner_text_bottom_padding="18dp"
+            app:inner_text_background="@drawable/shape_rounded"
+            app:button_image_disabled="@drawable/ic_monetization_on_black_24dp"
+            app:button_image_enabled="@drawable/ic_monetization_on_black_24dp"
+            app:button_left_padding="20dp"
+            app:button_right_padding="20dp"
+            app:button_top_padding="20dp"
+            app:button_bottom_padding="20dp"
+            app:button_background="@drawable/shape_button"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="325sp"
+
+        >
+
+
+
         <com.hitomi.cmlibrary.CircleMenu
         android:id="@+id/circle_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            android:layout_gravity="center"
+
+        android:layout_width="435dp"
+        android:layout_height="400dp" />
+
+    </LinearLayout>
+
+
 </RelativeLayout>

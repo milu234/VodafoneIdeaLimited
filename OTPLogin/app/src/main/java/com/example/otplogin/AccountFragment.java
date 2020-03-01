@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,39 +49,104 @@ public class AccountFragment extends Fragment {
     TextView phoneNumber;
     TextView validityDuration;
     TextView rechargePlan;
+    TextView vodaCoin;
 
-    String hostAddress = "http://192.168.1.11/vil/getAccountInfo.php";
-    String phone = "";
+    Button vodaCoins;
+    Button scratchCards;
+    Button scratchcard;
+
+    String hostAddress = "http://10.10.40.58/vil/getAccountInfo.php";
+    static String phone = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        phone  = user.getPhoneNumber();
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        phone = user.getPhoneNumber();
 
 
         View RootView = inflater.inflate(R.layout.fragment_account, container, false);
         // Inflate the layout for this fragment
-        userName = (TextView)RootView.findViewById(R.id.nameView);
-        plan = (TextView)RootView.findViewById(R.id.planView);
-        talktimeBalanceView = (TextView)RootView.findViewById(R.id.talktimeBalanceView);
-        dataBalanceView = (TextView)RootView.findViewById(R.id.dataBalanceView);
-        phoneNumber = (TextView)RootView.findViewById(R.id.phoneNumber);
-        rechargePlan = (TextView)RootView.findViewById(R.id.lastRecharge);
-        validityDuration = (TextView)RootView.findViewById(R.id.validity);
-        Button signOut = (Button)RootView.findViewById(R.id.buttonSignOut);
+        userName = (TextView) RootView.findViewById(R.id.nameView);
+        plan = (TextView) RootView.findViewById(R.id.planView);
+        talktimeBalanceView = (TextView) RootView.findViewById(R.id.talktimeBalanceView);
+        dataBalanceView = (TextView) RootView.findViewById(R.id.dataBalanceView);
+        phoneNumber = (TextView) RootView.findViewById(R.id.phoneNumber);
+        rechargePlan = (TextView) RootView.findViewById(R.id.lastRecharge);
+        validityDuration = (TextView) RootView.findViewById(R.id.validity);
+        vodaCoin = (TextView)RootView.findViewById(R.id.vodaCoins);
+
+        Button signOut = (Button) RootView.findViewById(R.id.buttonSignOut);
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getActivity(),PhoneNumber.class);
+                Intent intent = new Intent(getActivity(), PhoneNumber.class);
                 startActivity(intent);
+            }
+
+
+//        vodaCoins.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                loadFragment(new VodaCoins());
+//            }
+//        });
+//
+//        scratchCards.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                loadFragment(new ScratchCards());
+//            }
+//        });
+
+        });
+
+
+        Button buttonScratchCards = (Button)RootView.findViewById(R.id.buttonScratchCards);
+        buttonScratchCards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new ScratchCards());
             }
         });
 
+
+
+
+
+
+        //vodaCoins = RootView.findViewById(R.id.vodaCoins);
+        //scratchCards = RootView.findViewById(R.id.scratchCards);
+
+        //vodaCoins.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View v) {
+                //loadFragment(new VodaCoins());
+            //}
+        //});
+
+        //scratchCards.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View v) {
+                //loadFragment(new ScratchCards());
+            //}
+        //});
+
+        //vodaCoins = RootView.findViewById(R.id.vodaCoins);
+        //scratchCards = RootView.findViewById(R.id.scratchCards);
         getDetails();
         return RootView;
+    }
+
+    public void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void getDetails(){
@@ -135,6 +201,7 @@ public class AccountFragment extends Fragment {
                     String rechargeValidity = data.getString("recharge_validity");
                     String talktimeBalance = data.getString("talktime_balance");
                     String dataBalance = data.getString("data_balance");
+                    String vodaCoinVal = data.getString("voda_coins");
 
                     Log.e("data",phoneNo);
 
@@ -144,6 +211,7 @@ public class AccountFragment extends Fragment {
                     validityDuration.setText(rechargeValidity);
                     talktimeBalanceView.setText(talktimeBalance);
                     dataBalanceView.setText(dataBalance);
+                    vodaCoin.setText(vodaCoinVal);
                     if(planName.equals("1")){
                         plan.setText("Prepaid");
                     }else if (planName.equals("0")){

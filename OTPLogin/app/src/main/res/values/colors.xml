@@ -3,13 +3,33 @@
     <color name="textColor">#292929</color>
     <color name="white">#ffffff</color>
     <color name="colorPrimary">#FF0000</color>
-    <color name="colorPrimaryDark">#d00300</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#FF0000</color>
+    <color name="colorAccent">#FF0000</color>
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#E0E0E0</color>
 
     <color name="grayLight">#fafafa</color>
-    <color name="startBlue">#09c6df</color>
-    <color name="endBlue">#0bcce6</color>
+    <color name="startBlue">#ff2626</color>
+    <color name="endBlue">#f25251</color>
     <color name="primaryDarkAccount">#292b3d</color>
+
+
+    <color name="yellow">#FFFF00</color>
+    <color name="fuchsia">#FF00FF</color>
+    <color name="red">#FF0000</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gray">#808080</color>
+    <color name="olive">#808000</color>
+    <color name="purple">#800080</color>
+    <color name="maroon">#800000</color>
+    <color name="aqua">#00FFFF</color>
+    <color name="lime">#00FF00</color>
+    <color name="teal">#008080</color>
+    <color name="green">#008000</color>
+    <color name="blue">#0000FF</color>
+    <color name="navy">#000080</color>
+    <color name="black">#000000</color>
+    
+    <color name="tabtextColor">#fff</color>
+    <color name="tabindicatorColor">#2d2d2d</color>
 </resources>

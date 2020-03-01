@@ -3,6 +3,8 @@ package com.example.otplogin;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +14,13 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.ar.sceneform.ux.ArFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
@@ -27,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView optView;
     ProgressBar progressBar;
     TextView progressText;
+    Button clickImageButton;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -34,45 +39,37 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        textView = findViewById(R.id.timeView);
-        progressText = findViewById(R.id.textProgress);
+//
+//            <TextView
+//        android:id="@+id/textView"
+//        android:layout_width="wrap_content"
+//        android:layout_height="wrap_content"
+//        android:layout_centerHorizontal="true"
+//        android:layout_marginTop="25dp"
+//        android:text="@string/welcome"
+//        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+//        android:textColor="@color/colorPrimary" />
 
-        textView.setText(String.valueOf(PhoneNumber.getRunningTime()));
+        progressText = (TextView)findViewById(R.id.textProgress);
 
-
-        optView = findViewById(R.id.optView);
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String carrierName = telephonyManager.getNetworkOperatorName();
-        optView.setText(carrierName);
-
-
+        long textView = PhoneNumber.getRunningTime();
         progressBar = findViewById(R.id.progressBar);
-        String progress = textView.getText().toString();
+        String progress = String.valueOf(textView);
         int x = Integer.parseInt(progress)/10;
 
         String y = String.valueOf(x)+"%";
         progressText.setText(y);
         progressBar.setProgress(Integer.parseInt(progress)/10);
 
-        findViewById(R.id.btnPayPage).setOnClickListener(new View.OnClickListener() {
+        clickImageButton = (Button)findViewById(R.id.clickImage);
+        clickImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this,RazorPayGateway.class);
-                startActivity(intent);
-
+            public void onClick(View v) {
+                    Intent intent = new Intent(HomeActivity.this,  AugmentedFacesActivity.class);
+                    startActivity(intent);
             }
         });
 
-        findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(HomeActivity.this,PhoneNumber.class);
-                startActivity(intent);
-
-
-            }
-        });
 
         findViewById(R.id.btnInvite).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,14 +78,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
-        findViewById(R.id.btnUSSD).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this,USSDLIst.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
@@ -100,8 +89,6 @@ public class HomeActivity extends AppCompatActivity {
                 .setCallToActionText("Invitation CTA")
                 .build();
         startActivityForResult(intent,REQUEST_CODE);
-
-
     }
 //***************************************************************Function to check Invite - Start***********************************************
     @Override
@@ -114,23 +101,37 @@ public class HomeActivity extends AppCompatActivity {
                 for (String id : ids){
                     Log.d(TAG, "onActivityResult: sent invitation " + id);
                 }
+                int finalPoints = ids.length*10;
+                UpdateCoins.updateVodaCoins(String.valueOf(finalPoints));
             }
             else {
-
                 Toast.makeText(HomeActivity.this, "Invite Not Sent", Toast.LENGTH_LONG).show();
-
-
             }
         }
     }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static long UsedDuration(){
         long x = PhoneNumber.getRunningTime();
         long y = x/1000;
         long z = y/60;
         long progressPercent = (z/1440)*100;
+
+        UpdateCoins.updateVodaCoins(String.valueOf(progressPercent));
+
         return progressPercent;
+    }
+
+    //########################################## Click Image Task ###############################################//
+
+
+
+    public void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
